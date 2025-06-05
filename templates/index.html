@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico Médico com Bayes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .sintomas-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .progresso-bar {
+            height: 20px;
+            background: #ecf0f1;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        
+        .progresso {
+            height: 100%;
+            background: #3498db;
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .calculo {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border-left: 4px solid #3498db;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        
+        .formula {
+            font-weight: bold;
+            margin: 15px 0;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Diagnóstico Médico com Teorema de Bayes</h1>
+        <p>Selecione seus sintomas:</p>
+        
+        <div class="sintomas-list">
+            <div><input type="checkbox" id="febre"> <label for="febre">Febre</label></div>
+            <div><input type="checkbox" id="tosse"> <label for="tosse">Tosse</label></div>
+            <div><input type="checkbox" id="dor_cabeca"> <label for="dor_cabeca">Dor de cabeça</label></div>
+            <div><input type="checkbox" id="dor_muscular"> <label for="dor_muscular">Dor muscular</label></div>
+            <div><input type="checkbox" id="fadiga"> <label for="fadiga">Fadiga</label></div>
+        </div>
+        
+        <button onclick="calcularDiagnostico()">Calcular Diagnóstico</button>
+        
+        <div id="resultados" style="margin-top: 30px; display: none;">
+            <h2>Resultados</h2>
+            
+            <div class="formula">
+                Fórmula de Bayes: P(Doença|Sintomas) = [P(Doença) × P(Sintomas|Doença)] / P(Sintomas)
+            </div>
+            
+            <div id="gripe" class="resultado">
+                <div>Gripe: <span id="gripe_valor">0</span>%</div>
+                <div class="progresso-bar"><div id="gripe_barra" class="progresso"></div></div>
+                <div id="gripe_calculo" class="calculo"></div>
+            </div>
+            
+            <div id="resfriado" class="resultado">
+                <div>Resfriado: <span id="resfriado_valor">0</span>%</div>
+                <div class="progresso-bar"><div id="resfriado_barra" class="progresso"></div></div>
+                <div id="resfriado_calculo" class="calculo"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados completos das doenças
+        const dados = {
+            // Probabilidades a priori (P(D))
+            probabilidades: {
+                gripe: 0.3,    // 30%
+                resfriado: 0.35 // 35%
+            },
+            
+            // Probabilidades dos sintomas dada cada doença (P(S|D))
+            sintomas_doenca: {
+                gripe: {
+                    febre: 0.7,
+                    tosse: 0.8,
+                    dor_cabeca: 0.5,
+                    dor_muscular: 0.6,
+                    fadiga: 0.65
+                },
+                resfriado: {
+                    febre: 0.1,
+                    tosse: 0.6,
+                    dor_cabeca: 0.3,
+                    dor_muscular: 0.2,
+                    fadiga: 0.4
+                }
+            },
+            
+            // Probabilidades gerais dos sintomas (P(S))
+            sintomas_geral: {
+                febre: 0.15,
+                tosse: 0.20,
+                dor_cabeca: 0.25,
+                dor_muscular: 0.18,
+                fadiga: 0.22
+            }
+        };
+
+        function calcularDiagnostico() {
+            // Pega sintomas selecionados
+            const sintomasSelecionados = [];
+            if (document.getElementById('febre').checked) sintomasSelecionados.push('febre');
+            if (document.getElementById('tosse').checked) sintomasSelecionados.push('tosse');
+            if (document.getElementById('dor_cabeca').checked) sintomasSelecionados.push('dor_cabeca');
+            if (document.getElementById('dor_muscular').checked) sintomasSelecionados.push('dor_muscular');
+            if (document.getElementById('fadiga').checked) sintomasSelecionados.push('fadiga');
+
+            // Calcula P(Sintomas) - denominador da fórmula
+            let pSintomas = 1;
+            sintomasSelecionados.forEach(s => {
+                pSintomas *= dados.sintomas_geral[s];
+            });
+
+            // Calcula para cada doença
+            const resultados = {};
+            
+            for (const doenca in dados.probabilidades) {
+                // P(Doença) - probabilidade a priori
+                const pDoenca = dados.probabilidades[doenca];
+                
+                // P(Sintomas|Doença) - produto das probabilidades condicionais
+                let pSintomasDoenca = 1;
+                let calculoTexto = `P(${doenca}|Sintomas) = [P(${doenca}) × `;
+                
+                sintomasSelecionados.forEach(s => {
+                    const prob = dados.sintomas_doenca[doenca][s] || 0.01;
+                    pSintomasDoenca *= prob;
+                    calculoTexto += `P(${s}|${doenca}) × `;
+                });
+                
+                calculoTexto = calculoTexto.slice(0, -3) + `] / P(Sintomas)\n`;
+                calculoTexto += `= [${pDoenca.toFixed(2)} × ${pSintomasDoenca.toFixed(4)}] / ${pSintomas.toFixed(6)}\n`;
+                
+                // Aplica Teorema de Bayes
+                const pDoencaSintomas = (pDoenca * pSintomasDoenca) / pSintomas;
+                
+                calculoTexto += `= ${(pDoenca * pSintomasDoenca).toFixed(6)} / ${pSintomas.toFixed(6)}\n`;
+                calculoTexto += `= ${pDoencaSintomas.toFixed(6)}\n\n`;
+                calculoTexto += `Probabilidade: ${(pDoencaSintomas * 100).toFixed(2)}%`;
+                
+                resultados[doenca] = {
+                    valor: pDoencaSintomas * 100,
+                    calculo: calculoTexto
+                };
+                
+                document.getElementById(`${doenca}_calculo`).textContent = calculoTexto;
+            }
+
+            // Normaliza os resultados para somar 100%
+            const total = Object.values(resultados).reduce((sum, r) => sum + r.valor, 0);
+            
+            for (const doenca in resultados) {
+                const valorNormalizado = (resultados[doenca].valor / total) * 100;
+                document.getElementById(`${doenca}_valor`).textContent = valorNormalizado.toFixed(2);
+                document.getElementById(`${doenca}_barra`).style.width = valorNormalizado + '%';
+            }
+
+            // Mostra resultados
+            document.getElementById('resultados').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

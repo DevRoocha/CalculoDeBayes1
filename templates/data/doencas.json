@@ -1,0 +1,68 @@
+{
+    "total_pacientes": 10000,
+    "sintomas": {
+        "Febre": {"probabilidade": 0.15},
+        "Tosse": {"probabilidade": 0.20},
+        "Dor de cabeça": {"probabilidade": 0.25},
+        "Dor muscular": {"probabilidade": 0.18},
+        "Fadiga": {"probabilidade": 0.22},
+        "Náusea": {"probabilidade": 0.12},
+        "Dor de garganta": {"probabilidade": 0.16},
+        "Congestão nasal": {"probabilidade": 0.14},
+        "Dificuldade respiratória": {"probabilidade": 0.08},
+        "Perda de olfato": {"probabilidade": 0.05}
+    },
+    "doencas": [
+        {
+            "nome": "Gripe Comum",
+            "probabilidade": 0.30,
+            "sintomas": {
+                "Febre": 0.70,
+                "Tosse": 0.80,
+                "Dor de cabeça": 0.50,
+                "Dor muscular": 0.60,
+                "Fadiga": 0.65
+            }
+        },
+        {
+            "nome": "Resfriado",
+            "probabilidade": 0.35,
+            "sintomas": {
+                "Tosse": 0.60,
+                "Dor de garganta": 0.70,
+                "Congestão nasal": 0.85,
+                "Dor de cabeça": 0.30
+            }
+        },
+        {
+            "nome": "COVID-19",
+            "probabilidade": 0.10,
+            "sintomas": {
+                "Febre": 0.75,
+                "Tosse": 0.80,
+                "Fadiga": 0.70,
+                "Dificuldade respiratória": 0.40,
+                "Perda de olfato": 0.60
+            }
+        },
+        {
+            "nome": "Dengue",
+            "probabilidade": 0.08,
+            "sintomas": {
+                "Febre": 0.90,
+                "Dor de cabeça": 0.80,
+                "Dor muscular": 0.85,
+                "Náusea": 0.60
+            }
+        },
+        {
+            "nome": "Alergia",
+            "probabilidade": 0.17,
+            "sintomas": {
+                "Congestão nasal": 0.75,
+                "Dor de garganta": 0.50,
+                "Tosse": 0.40
+            }
+        }
+    ]
+}
