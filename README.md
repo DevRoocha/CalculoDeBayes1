@@ -91,7 +91,8 @@ Garante que as probabilidades somem 100%
 
 ## 📊 Exemplo de Uso
 ------------------------------
-![image](https://github.com/user-attachments/assets/b5b1738a-746c-4ac4-8e9b-21dcb4b2e8dd)
+![image](https://github.com/user-attachments/assets/ab00ec49-1a75-4cf3-952d-f44640ba9add)
+
 
 ------------------------------
 ## Resultado Final
