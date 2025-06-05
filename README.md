@@ -87,3 +87,6 @@ Garante que as probabilidades somem 100%
 ![image](https://github.com/user-attachments/assets/b5b1738a-746c-4ac4-8e9b-21dcb4b2e8dd)
 
 ------------------------------
+## Resultado Final
+![image](https://github.com/user-attachments/assets/cc165fe7-be6a-4699-80b5-a017369109de)
+
