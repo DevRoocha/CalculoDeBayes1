@@ -19,7 +19,8 @@ P(Sintomas): Probabilidade geral dos sintomas na população
 1. Entrada de Dados
 
 ------------------------------
-![image](https://github.com/user-attachments/assets/c5801755-608f-4c1f-add5-bda80ab9aab6)
+![image](https://github.com/user-attachments/assets/76c0e1f4-1c93-4211-addb-531a83e3b9be)
+
 
 ------------------------------
 Importa a base de dados contendo:
@@ -28,7 +29,8 @@ Lista de doenças com suas probabilidades e sintomas associados (dados['doencas'
 
 2. Função Principal
 ------------------------------
-![image](https://github.com/user-attachments/assets/60a150e8-8a58-4d65-9b78-68d0e73d708c)
+![image](https://github.com/user-attachments/assets/14621418-be2c-48ea-b901-3e9a9815f444)
+
 
 ------------------------------
 Parâmetro:
@@ -46,21 +48,24 @@ explicacao: Lista de strings com detalhes dos cálculos
 3. Passo a Passo do Algoritmo
 a) Cálculo de P(Sintomas)
 ------------------------------
-![image](https://github.com/user-attachments/assets/075cbea4-771c-408e-b174-f14d88b0938c)
+![image](https://github.com/user-attachments/assets/805c374b-49e5-4bfb-88d3-ae52cf56fe5b)
+
 
 ------------------------------
 Calcula a probabilidade conjunta dos sintomas ocorrerem juntos na população geral
 
 b) Cálculo para Cada Doença
 ------------------------------
-![image](https://github.com/user-attachments/assets/855e22fd-fa89-4ce8-9f1e-65cac8240044)
+![image](https://github.com/user-attachments/assets/b0923c3c-5c3c-4e6b-b6c7-bbc4ae1c88a8)
+
 
 ------------------------------
 Para cada doença, inicia com sua probabilidade prévia (P(Doença))
 
 c) Cálculo de P(Sintomas|Doença)
 ------------------------------
-![image](https://github.com/user-attachments/assets/9eeb62cb-6ce9-472f-a3ba-526682dcaa3f)
+![image](https://github.com/user-attachments/assets/19295f2a-15bf-4a53-a2f4-ee3208a0c707)
+
 
 ------------------------------
 Multiplica as probabilidades condicionais de cada sintoma dado a doença
@@ -69,14 +74,16 @@ Sintomas não listados recebem probabilidade 1% (valor arbitrário baixo)
 
 d) Aplicação do Teorema de Bayes
 ------------------------------
-![image](https://github.com/user-attachments/assets/1fc4c0ab-191b-473d-a952-13a3534a8412)
+![image](https://github.com/user-attachments/assets/a0881a6b-fac1-48f5-a157-7942b2c00734)
+
 
 ------------------------------
 Calcula a probabilidade final da doença dados os sintomas
 
 e) Normalização
 ------------------------------
-![image](https://github.com/user-attachments/assets/3b76aa76-aab1-43a7-95d4-b0d076cb17b1)
+![image](https://github.com/user-attachments/assets/2dba4899-c4ea-43f9-a3b2-e4aed8195025)
+
 
 ------------------------------
 Garante que as probabilidades somem 100%
